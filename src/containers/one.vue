@@ -14,11 +14,13 @@ export default {
   },
   mounted () {
     // this.initCanvas() // 单独一条线
-    // this.threeLine() // 单独一条线
+    // this.threeLine() // 单独3条线
     // this.CanvasRect() // 绘制正方形
-    this.CanvasTheeRect() // 绘制3个正方形
+    // this.CanvasTheeRect() // 绘制3个正方形
+    this.drawMagicRect() // 绘制魔性正方形
   },
   methods: {
+    // 单独一条线
     initCanvas () {
       const canvas = document.querySelector('canvas')
       const scrollWidth = document.documentElement.scrollWidth || document.body.scrollWidth
@@ -34,6 +36,8 @@ export default {
       context.strokeStyle = '#aa394c'
       context.stroke()
     },
+
+    // 单独3条线
     threeLine () {
       const canvas = document.querySelector('canvas')
       const scrollWidth = document.documentElement.scrollWidth || document.body.scrollWidth
@@ -64,6 +68,8 @@ export default {
       context.strokeStyle = 'green'
       context.stroke()
     },
+
+    // 绘制3个正方形
     CanvasRect () {
       const canvas = document.querySelector('canvas')
       const scrollWidth = document.documentElement.scrollWidth || document.body.scrollWidth
@@ -89,6 +95,8 @@ export default {
 
       context.stroke()
     },
+
+    // 绘制3个正方形
     CanvasTheeRect () {
       const canvas = document.querySelector('canvas')
       const scrollWidth = document.documentElement.scrollWidth || document.body.scrollWidth
@@ -100,7 +108,7 @@ export default {
 
       this.drawRect(context, 20, 20, 50, 50, 'orange', 3, 'red')
       this.drawRect(context, 84, 20, 50, 50, 'green', 3, 'black')
-      this.drawRect(context, 148, 20, 50, 50, 'yellow', 3, 'pink')
+      this.drawRectInner(context, 148, 20, 50, 50, 'yellow', 3, 'pink')
     },
     drawRect (cxt, x, y, width, height, fillColor, borderWidth, borderColor) {
       cxt.beginPath()
@@ -116,6 +124,53 @@ export default {
       cxt.fillStyle = fillColor
 
       cxt.fill()
+      cxt.stroke()
+    },
+    drawRectInner (cxt, x, y, w, h, fill, bW, bC) {
+      cxt.beginPath()
+      cxt.rect(x, y, w, h)
+      // cxt.closePath() // 可以不用
+
+      cxt.lineWIdth = bW
+      cxt.strokeStyle = bC
+      cxt.fillStyle = fill
+
+      cxt.fill()
+      cxt.stroke()
+    },
+
+    // 绘制魔性正方形
+    drawMagicRect () {
+      const canvas = document.querySelector('canvas')
+      const scrollWidth = document.documentElement.scrollWidth || document.body.scrollWidth
+      const scrollHeight = document.documentElement.scrollHeight || document.body.scrollHeight
+      canvas.width = scrollWidth
+      canvas.height = scrollHeight
+
+      const context = canvas.getContext('2d')
+      // 绘制背景颜色
+      context.beginPath()
+      context.rect(0, 0, scrollWidth, scrollHeight)
+      context.fillStyle = '#aa9033'
+      context.fill()
+
+      for (let i = 0; i < 20; i++) {
+        this.buildRect(context, 10 + 10 * i, 10 + 10 * i, 400 - 20 * i, 400 - 20 * i, '#000', 4)
+        this.buildRect(context, 15 + 10 * i, 15 + 10 * i, 390 - 20 * i, 390 - 20 * i, '#fff', 4)
+      }
+
+      context.beginPath()
+      context.rect(208, 208, 4, 4)
+      context.fillStyle = 'black'
+      context.lineWidth = 4
+      context.fill()
+      context.stroke()
+    },
+    buildRect (cxt, x, y, w, h, color, line) {
+      cxt.beginPath()
+      cxt.rect(x, y, w, h)
+      cxt.lineWidth = line
+      cxt.strokeStyle = color
       cxt.stroke()
     }
   }
