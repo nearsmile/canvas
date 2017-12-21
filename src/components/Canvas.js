@@ -21,6 +21,31 @@ function drawArcTo (cxt, x0, y0, x1, y1, x2, y2, r, lineW, color) {
   cxt.stroke()
 }
 
+/**
+ * 圆角矩形
+ * @param {Context} Context
+ * @param {Number} x 起点坐标
+ * @param {Number} y 起点坐标
+ * @param {Number} w 宽度
+ * @param {Number} h 高度
+ * @param {*} bg 背景色
+ */
+function drawRoundedRectangle (Context, x, y, w, h, bg) {
+  Context.fillStyle = '#1938d8'
+  Context.beginPath()
+  Context.arc(x + h / 2, y + h / 2, h / 2, Math.PI * 3 / 2, Math.PI / 2, true)
+  Context.moveTo(x + h / 2, y)
+  Context.lineTo(x + w - h / 2, y)
+
+  Context.arc(x + w - h / 2, y + h / 2, h / 2, Math.PI * 3 / 2, Math.PI / 2, false)
+  Context.moveTo(x + w - h / 2, y + h)
+  Context.lineTo(x + h / 2, y + h)
+
+  Context.lineTo(x + h / 2, y)
+  Context.fill()
+}
+
 export {
-  drawArcTo
+  drawArcTo,
+  drawRoundedRectangle
 }

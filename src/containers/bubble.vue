@@ -1,8 +1,6 @@
 <template>
   <div class="bubble">
-  <canvas></canvas>
-  <!-- <canvas @mousemove="handle($event)"></canvas> -->
-
+    <canvas @touchmove="handle($event)"></canvas>
   </div>
 </template>
 <script>
@@ -12,7 +10,7 @@
       return {
         canvas: null,
         cxt: null,
-        balls: null
+        balls: []
       }
     },
     methods: {
@@ -36,28 +34,29 @@
         for (let i = 0; i < 50; i++) {
           let _ball = {
             x: Math.random() * width,
-            h: Math.random() * height,
+            y: Math.random() * height,
             r: Math.random() * 50 + 20
           }
           balls[i] = _ball
         }
         return balls
       },
-      /* handle (event) {
-        console.log(this.canvas)
+      handle (event) {
+        // console.log(this.canvas)
+        // console.log(this.balls)
         this.detect(event, this.canvas, this.cxt, this.balls)
-      }, */
+      },
       draw (cxt, balls) {
         for (let i = 0; i < balls.length; i++) {
           cxt.beginPath()
-          cxt.arc(balls[i].x, balls[i].y, balls[i].r, 0, Math.PI * 2)
           cxt.globalAlpha = 0.5
 
           let R = Math.floor(Math.random() * 255)
           let G = Math.floor(Math.random() * 255)
           let B = Math.floor(Math.random() * 255)
-
+          // console.log(`rgb(${R}, ${G}, ${B})`)
           cxt.fillStyle = `rgb(${R}, ${G}, ${B})`
+          cxt.arc(balls[i].x, balls[i].y, balls[i].r, 0, Math.PI * 2)
           cxt.fill()
         }
       },
@@ -80,9 +79,11 @@
     mounted () {
       const { canvas, cxt, width, height } = this.initCanvas()
       const balls = this.bubbles(canvas, cxt, width, height)
+      this.balls = balls
       this.canvas = canvas
       this.cxt = cxt
-      console.log('balls', balls, canvas, cxt, width, height)
+      // console.log(width, height)
+      // console.log('balls', balls, canvas, cxt, width, height)
       this.draw(cxt, balls)
     }
   }
